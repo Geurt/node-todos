@@ -4,11 +4,19 @@ const request = require('supertest');
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
 
+var todos = [{
+	text: "A todo."
+}, {
+	text: "Another todo."
+}];
+
 beforeEach((done) => {
 	// runs before each test case
 	// only proceed after done() is called
 	// empty the database:
-	Todo.remove({}).then(() => done()); // expression syntax
+	Todo.deleteMany({}).then(() => {
+		return Todo.insertMany(todos);
+	}).then(() => done()); // expression syntax
 });
 
 describe('POST /todo', () => {	// neatly organise in describe sections
@@ -28,7 +36,7 @@ describe('POST /todo', () => {	// neatly organise in describe sections
 				}
 
 				// lets see if the todo actually got into the model
-				Todo.find().then((todos) => {
+				Todo.find({text: 'A test string'}).then((todos) => {
 					expect(todos.length).toBe(1);
 					expect(todos[0].text).toBe(text);
 					done();	// wrap up test
@@ -51,9 +59,20 @@ describe('POST /todo', () => {	// neatly organise in describe sections
 				}
 
 				Todo.find().then((todos) => {
-					expect(todos.length).toBe(0);
+					expect(todos.length).toBe(2);
 					done();
 				}).catch((e) => done(e));
 			})
+	});
+});
+
+describe('GET /todos', () => {
+	it('should return a list of todos', (done) => {
+		request(app)
+			.get('/todos')
+			.expect((res) => {
+				expect(res.body.todos.length).toBe(2);
+			})
+			.end(done);
 	});
 });
