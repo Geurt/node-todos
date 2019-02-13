@@ -12,7 +12,7 @@ var todos = [{
 
 beforeEach((done) => {
 	// runs before each test case
-	// only proceed after done() is called
+	// only proceeds after done() is called
 	// empty the database:
 	Todo.deleteMany({}).then(() => {
 		return Todo.insertMany(todos);
@@ -35,7 +35,7 @@ describe('POST /todo', () => {	// neatly organise in describe sections
 					return done(err);
 				}
 
-				// lets see if the todo actually got into the model
+				// let's see if the todo actually got into the model
 				Todo.find({text: 'A test string'}).then((todos) => {
 					expect(todos.length).toBe(1);
 					expect(todos[0].text).toBe(text);
