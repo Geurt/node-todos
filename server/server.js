@@ -31,12 +31,12 @@ app.delete('/todos/:id', (req, res) => {
 		return res.status(404).send('Invalid ID');
 	}
 
-	Todo.findByIdAndDelete(id).then((doc) => {
-		if (!doc) {
+	Todo.findByIdAndDelete(id).then((todo) => {
+		if (!todo) {
 			return res.status(404).send('Todo not found');
 		}
 
-		res.send(`Todo deleted: ${doc}`);
+		res.send({todo});
 	}).catch((e) => {
 		res.status(400).send('Error');
 	});
