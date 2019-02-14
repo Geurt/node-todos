@@ -6,7 +6,7 @@ mongoose.Promise = global.Promise;
 // mongoose.connect('mongodb://localhost:27017/TodoApp', {useNewUrlParser: true});
 
 // mongodb atlas
-mongoose.connect('mongodb+srv://grsengers:helmut79@geurt-test-shgnm.mongodb.net/test?retryWrites=true', {useNewUrlParser: true}, (e) => {
+mongoose.connect('mongodb+srv://grsengers:unoriginal79@geurt-test-shgnm.mongodb.net/test?retryWrites=true', {useNewUrlParser: true}, (e) => {
 	if (e) {
 		console.log(e);
 	}

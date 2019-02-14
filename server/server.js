@@ -24,6 +24,24 @@ app.post('/todos', (req, res) => {
 
 });
 
+app.delete('/todos/:id', (req, res) => {
+	var id = req.params.id;
+
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send('Invalid ID');
+	}
+
+	Todo.findByIdAndDelete(id).then((doc) => {
+		if (!doc) {
+			return res.status(404).send('Todo not found');
+		}
+
+		res.send(`Todo deleted: ${doc}`);
+	}).catch((e) => {
+		res.status(400).send('Error');
+	});
+});
+
 app.get('/todos', (req, res) => {
 	Todo.find().then((todos) => {
 		res.send({todos}); // more flexible to create an object than the mere array
